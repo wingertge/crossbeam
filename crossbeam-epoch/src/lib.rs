@@ -74,9 +74,6 @@ cfg_if! {
     }
 }
 
-#[cfg_attr(feature = "nightly", cfg(target_has_atomic = "ptr"))]
-cfg_if! {
-    if #[cfg(any(feature = "alloc", feature = "std"))] {
         extern crate crossbeam_utils;
         #[macro_use]
         extern crate memoffset;
@@ -94,15 +91,9 @@ cfg_if! {
         pub use self::atomic::{Atomic, CompareAndSetError, CompareAndSetOrdering, Owned, Pointer, Shared};
         pub use self::collector::{Collector, LocalHandle};
         pub use self::guard::{unprotected, Guard};
-    }
-}
 
-cfg_if! {
-    if #[cfg(feature = "std")] {
         #[macro_use]
         extern crate lazy_static;
 
         mod default;
         pub use self::default::{default_collector, is_pinned, pin};
-    }
-}
